@@ -1,0 +1,122 @@
+<mvc:View controllerName="listaordini.controller.Home"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f">
+    <App>
+        <f:DynamicPage showFooter="false">
+            <f:title>
+                <f:DynamicPageTitle>
+                    <f:heading>
+                        <Title text="{i18n>appTitle}"/>
+                    </f:heading>
+                </f:DynamicPageTitle>
+            </f:title>
+            <f:content>
+                <Panel>
+                    <l:Grid >
+                        <VBox >
+                            <Label text="{i18n>labelFilterCustomer}"
+                                design="Bold" />
+                            <SearchField value=""
+                                search="onSearch"
+                                maxLength="255"/>
+                            <layoutData>
+                                <l:GridData span="XL3 L5 M12 S12"/>
+                            </layoutData>
+                        </VBox>
+                        <VBox >
+                            <Label text="{i18n>labelFilterState}"
+                                design="Bold" />
+                            <ComboBox placeholder="{i18n>placeholderChooseState}"
+                                items="{States>/states}">
+                                <core:Item key="{States>key}"
+                                    text="{States>text}" />
+                            </ComboBox>
+                            <layoutData>
+                                <l:GridData span="XL2 L4 M12 S12"/>
+                            </layoutData>
+                        </VBox>
+                        <HBox justifyContent="End"
+                            class="sapUiSmallMarginTop">
+                            <Button text="{i18n>btnSearch}"
+                                type="Emphasized"
+                                class="sapUiSmallMarginEnd"
+                                press="onNew"/>
+                            <layoutData>
+                                <l:GridData span="XL1 L2 M12 S12"
+                                    indent="L1"/>
+                            </layoutData>
+                        </HBox>
+                    </l:Grid>
+                    <Table id="tblOrder"
+                        items="{
+                  path: 'Orders>/order',
+                  length: '10'
+                }">
+                        <headerToolbar>
+                            <OverflowToolbar>
+                                <!-- <Title text="{i18n>labelRecord}: 10" level="H2"/> -->
+                                <ToolbarSpacer/>
+                                <Button tooltip="{i18n>tooltipSort}"
+                                    icon="sap-icon://sort"
+                                    press="onSort"/>
+                            </OverflowToolbar>
+                        </headerToolbar>
+                        <columns>
+                            <Column id="id"
+                                headerMenu="columnHeaderMenu">
+                                <Text text="{i18n>labelNOrder}" />
+                            </Column>
+                            <Column id="lastname"
+                                minScreenWidth="Tablet"
+                                demandPopin="true">
+                                <Text text="{i18n>labelCustomer}" />
+                            </Column>
+                            <Column minScreenWidth="Tablet"
+                                demandPopin="true">
+                                <Text text="{i18n>labelDateOrder}" />
+                            </Column>
+                            <Column demandPopin="true">
+                                <Text text="{i18n>labelCost}" />
+                            </Column>
+                            <Column demandPopin="true">
+                                <Text text="{i18n>labelState}" />
+                            </Column>
+                            <Column hAlign="Center"
+                                width="3.5rem">
+                                <Text text="" />
+                            </Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem vAlign="Middle">
+                                <cells>
+                                    <Text text="{Orders>Id}"
+                                        wrapping="true" />
+                                    <Text text="{Orders>Nome}"
+                                        wrapping="true" />
+                                    <Text text="{
+                                        path: 'Orders>Data',
+                                        formatter: '.formatter.formatDateTime'
+                                        }"
+                                        wrapping="false" />
+                                    <ObjectNumber number="{path: 'Orders>Importo', type: 'sap.ui.model.type.Float'}"
+                                        unit="{Orders>Valuta}"
+                                        state="None"
+                                        hideUnitInPreview="false"/>
+                                    <Text text="{Orders>Stato}"
+                                        wrapping="true" />
+                                    <Button icon="sap-icon://search"
+                                        type="Transparent"
+                                        tooltip="{i18n>tooltipDetail}"
+                                        press="onDetail"/>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </Panel>
+            </f:content>
+        </f:DynamicPage>
+    </App>
+</mvc:View>
