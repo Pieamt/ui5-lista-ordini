@@ -1,13 +1,13 @@
 // @ts-check
 
 sap.ui.define(
-  ["sap/m/Button", "sap/ui/export/Spreadsheet", "sap/ui/export/library", "fpproject/util/exportUtils"],
+  ["sap/m/Button", "sap/ui/export/Spreadsheet", "sap/ui/export/library", "listaordini/util/exportUtils"],
   function (Button, Spreadsheet, exportLib, exportUtils) {
     "use strict";
 
     const EdmType = exportLib.EdmType;
 
-    return Button.extend("fpproject.controls.ExportButton", {
+    return Button.extend("listaordini.controls.ExportButton", {
       metadata: {
         properties: {
           tableId: { type: "string", defaultValue: null }, // Obbligatorio

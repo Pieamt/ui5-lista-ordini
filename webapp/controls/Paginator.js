@@ -3,7 +3,7 @@ sap.ui.define(
   function (OverflowToolbar, ToolbarSpacer, Label, Button) {
     "use strict";
 
-    return OverflowToolbar.extend("fpproject.controls.Paginator", {
+    return OverflowToolbar.extend("listaordini.controls.Paginator", {
       metadata: {
         properties: {
           style: {

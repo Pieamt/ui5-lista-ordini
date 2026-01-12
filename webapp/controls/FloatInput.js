@@ -1,7 +1,7 @@
 sap.ui.define(["sap/m/Input", "sap/m/InputRenderer"], function (Input, InputRenderer) {
   "use strict";
 
-  return Input.extend("fpproject.controls.FloatInput", {
+  return Input.extend("listaordini.controls.FloatInput", {
     metadata: {
       properties: {},
       events: {

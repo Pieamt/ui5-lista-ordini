@@ -1,7 +1,7 @@
 sap.ui.define(["sap/m/Input", "sap/m/InputRenderer"], function (Input, InputRenderer) {
   "use strict";
 
-  return Input.extend("fpproject.controls.IntegerInput", {
+  return Input.extend("listaordini.controls.IntegerInput", {
     metadata: {
       properties: {},
     },
