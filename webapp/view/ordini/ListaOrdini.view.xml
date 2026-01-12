@@ -1,0 +1,125 @@
+<mvc:View controllerName="listaordini.controller.ordini.ListaOrdini"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:l="sap.ui.layout"
+  xmlns:t="sap.ui.table"
+  xmlns:core="sap.ui.core"
+  xmlns:my="listaordini.controls"
+  xmlns:rowmodes="sap.ui.table.rowmodes"
+  xmlns:f="sap.f">
+  <f:DynamicPage showFooter="false">
+    <f:title>
+      <f:DynamicPageTitle>
+        <f:heading>
+          <Title text="{i18n>orderListTitle}"/>
+        </f:heading>
+      </f:DynamicPageTitle>
+    </f:title>
+    <f:content>
+      <Panel>
+        <l:Grid >
+          <VBox >
+            <Label text="{i18n>labelFilterCustomer}"
+              design="Bold" />
+            <SearchField value=""
+              search="onSearch"
+              maxLength="255"/>
+            <layoutData>
+              <l:GridData span="XL3 L5 M12 S12"/>
+            </layoutData>
+          </VBox>
+          <VBox >
+            <Label text="{i18n>labelFilterState}"
+              design="Bold" />
+            <ComboBox placeholder="{i18n>placeholderChooseState}"
+              items="{States>/states}">
+              <core:Item key="{States>key}"
+                text="{States>text}" />
+            </ComboBox>
+            <layoutData>
+              <l:GridData span="XL2 L4 M12 S12"/>
+            </layoutData>
+          </VBox>
+          <HBox justifyContent="End"
+            class="sapUiSmallMarginTop">
+            <Button text="{i18n>btnSearch}"
+              type="Emphasized"
+              class="sapUiSmallMarginEnd"
+              press="onNew"/>
+            <layoutData>
+              <l:GridData span="XL1 L2 M12 S12"
+                indent="L1"/>
+            </layoutData>
+          </HBox>
+        </l:Grid>
+        <t:Table rows="{Orders>/order}"
+          selectionMode="None"
+          id="tblOrder"
+          sort="onSort">
+          <t:rowMode>
+            <rowmodes:Fixed rowCount="10"/>
+          </t:rowMode>
+          <t:columns>
+            <t:Column sortProperty="Id"
+              width="8rem">
+              <Label text="{i18n>labelNOrder}" />
+              <t:template>
+                <Text text="{Orders>Id}"
+                  wrapping="true"/>
+              </t:template>
+            </t:Column>
+            <t:Column sortProperty="Nome"
+              width="12rem">
+              <Label text="{i18n>labelCustomer}" />
+              <t:template>
+                <Text text="{Orders>Nome}"
+                  wrapping="true"/>
+              </t:template>
+            </t:Column>
+            <t:Column sortProperty="DataOrdine">
+              <Label text="{i18n>labelDateOrder}" />
+              <t:template>
+                <Text text="{
+                    path: 'Orders>DataOrdine',
+                    formatter: '.formatter.formatDateTime'
+                  }"
+                  wrapping="false"/>
+              </t:template>
+            </t:Column>
+            <t:Column sortProperty="Importo">
+              <Label text="{i18n>labelCost}" />
+              <t:template>
+                <ObjectNumber number="{path: 'Orders>Importo', type: 'sap.ui.model.type.Float'}"
+                  unit="{Orders>Valuta}"
+                  state="None"
+                  hideUnitInPreview="false"/>
+              </t:template>
+            </t:Column>
+            <t:Column sortProperty="Stato">
+              <Label text="{i18n>labelState}" />
+              <t:template>
+                <Text text="{Orders>Stato}"
+                  wrapping="true"/>
+              </t:template>
+            </t:Column>
+            <t:Column width="3.5rem">
+              <t:template>
+                <Button icon="sap-icon://search"
+                  type="Transparent"
+                  tooltip="{i18n>tooltipDetail}"
+                  press="onDetail"/>
+              </t:template>
+            </t:Column>
+          </t:columns>
+          <t:footer>
+            <my:Paginator id="tblPaginatorOrders"
+              top=""
+              skip=""
+              records=""
+              press="onPaginatorChange"/>
+          </t:footer>
+        </t:Table>
+      </Panel>
+    </f:content>
+  </f:DynamicPage>
+</mvc:View>

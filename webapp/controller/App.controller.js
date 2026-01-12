@@ -1,10 +1,12 @@
-sap.ui.define([
-  "sap/ui/core/mvc/Controller"
-], (BaseController) => {
+sap.ui.define(["./BaseController"], (BaseController) => {
   "use strict";
 
   return BaseController.extend("listaordini.controller.App", {
-      onInit() {
-      }
+    onInit() {},
+
+    onMenuSelect: function (oEvent) {
+      const sKey = oEvent.getParameter("item").getKey();
+      this.navTo(sKey);
+    },
   });
 });

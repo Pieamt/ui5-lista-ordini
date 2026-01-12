@@ -1,0 +1,70 @@
+<mvc:View controllerName="listaordini.controller.articoli.Articolo"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:l="sap.ui.layout"
+  xmlns:f="sap.f">
+  <f:DynamicPage showFooter="true">
+    <f:title>
+      <f:DynamicPageTitle>
+        <f:heading>
+          <Title text="{i18n>newProductTitle}"/>
+        </f:heading>
+      </f:DynamicPageTitle>
+    </f:title>
+    <f:content>
+      <Panel >
+        <l:Grid>
+          <VBox >
+            <Label text="{i18n>labelNProduct}"
+              design="Bold"
+              required="true" />
+            <Input value="{
+                path: 'Articolo>/CodArticolo',
+                type: 'sap.ui.model.type.Integer',
+                constraints: { min: 0 }
+              }"
+              type="Number"
+              maxLength="3"/>
+            <Label text="{i18n>labelProduct}"
+              design="Bold"
+              required="true"
+              class="sapUiSmallMarginTop" />
+            <Input value="{Articolo>/NomeArticolo}"
+              maxLength="50"/>
+            <Label text="{i18n>labelProductCost}"
+              design="Bold"
+              required="true"
+              class="sapUiSmallMarginTop" />
+            <Input value="{
+                path: 'Articolo>/Importo',
+                type: 'sap.ui.model.type.Integer',
+                constraints: { min: 0 }
+              }"
+              type="Number"
+              maxLength="4"/>
+            <Label text="{i18n>labelQuantityDisp}"
+              design="Bold"
+              required="true"
+              class="sapUiSmallMarginTop" />
+            <StepInput value="{Articolo>/QuantitaDisp}"
+              min="0"
+              max="10"
+              step="1"
+              width="5rem" />
+          </VBox>
+        </l:Grid>
+      </Panel>
+    </f:content>
+    <f:footer>
+      <OverflowToolbar>
+        <Button text="{i18n>btnBack}"
+          type="Back"
+          press="onBack"/>
+        <ToolbarSpacer />
+        <Button text="{i18n>btnSave}"
+          type="Emphasized"
+          press="onSave"/>
+      </OverflowToolbar>
+    </f:footer>
+  </f:DynamicPage>
+</mvc:View>

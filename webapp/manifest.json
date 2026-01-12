@@ -14,6 +14,16 @@
       "id": "@sap/generator-fiori:basic",
       "version": "1.17.3",
       "toolsId": "be8474d4-5d2a-4326-ad25-b082ae1e74b0"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/sap/opu/odata/sap/ZEX_ORDERS_SRV/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "odataVersion": "2.0"
+        }
+      }
     }
   },
   "sap.ui": {
@@ -38,7 +48,9 @@
       "minUI5Version": "1.143.2",
       "libs": {
         "sap.m": {},
-        "sap.ui.core": {}
+        "sap.ui.core": {},
+        "sap.ui.layout": {},
+        "sap.ui.unified": {}
       }
     },
     "contentDensities": {
@@ -51,6 +63,11 @@
         "settings": {
           "bundleName": "listaordini.i18n.i18n"
         }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {}
       }
     },
     "resources": {
@@ -77,12 +94,39 @@
           "name": "Home",
           "pattern": ":?query:",
           "target": ["Home"]
+        },
+        {
+          "name": "ListaOrdini",
+          "pattern": "listaordini",
+          "target": ["ListaOrdini"]
+        },
+        {
+          "name": "ListaArticoli",
+          "pattern": "listaarticoli",
+          "target": ["ListaArticoli"]
+        },
+        {
+          "name": "Articolo",
+          "pattern": "articolo",
+          "target": ["Articolo"]
         }
       ],
       "targets": {
         "Home": {
           "id": "Home",
           "name": "Home"
+        },
+        "ListaOrdini": {
+          "id": "ListaOrdini",
+          "name": "ordini.ListaOrdini"
+        },
+        "ListaArticoli": {
+          "id": "ListaArticoli",
+          "name": "articoli.ListaArticoli"
+        },
+        "Articolo": {
+          "id": "Articolo",
+          "name": "articoli.Articolo"
         }
       }
     },

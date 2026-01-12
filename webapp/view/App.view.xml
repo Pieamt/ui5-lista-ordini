@@ -1,7 +1,33 @@
 <mvc:View controllerName="listaordini.controller.App"
     displayBlock="true"
     xmlns:mvc="sap.ui.core.mvc"
+    xmlns:tnt="sap.tnt"
     xmlns="sap.m">
-    <App id="app">
-    </App>
+    <tnt:ToolPage>
+        <tnt:header>
+            <tnt:ToolHeader>
+                <Title text="{i18n>menuTitle}"/>
+            </tnt:ToolHeader>
+        </tnt:header>
+        <tnt:sideContent>
+            <tnt:SideNavigation id="menu"
+                itemSelect="onMenuSelect"
+                selectedKey="Home">
+                <tnt:NavigationList id="menuList">
+                    <tnt:NavigationListItem key="Home"
+                        text="Home"
+                        icon="sap-icon://home" />
+                    <tnt:NavigationListItem key="ListaOrdini"
+                        text="Lista Ordini"
+                        icon="sap-icon://customer-order-entry" />
+                    <tnt:NavigationListItem key="ListaArticoli"
+                        text="Magazzino"
+                        icon="sap-icon://product" />
+                </tnt:NavigationList>
+            </tnt:SideNavigation>
+        </tnt:sideContent>
+        <tnt:mainContents>
+            <App id="app"/>
+        </tnt:mainContents>
+    </tnt:ToolPage>
 </mvc:View>
