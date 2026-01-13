@@ -34,7 +34,6 @@ sap.ui.define(
         this.getRouter().getRoute("ListaOrdini").attachPatternMatched(this._onObjectMatched, this);
 
         this.oModelOrders = this.setModel(new JSONModel(generalUtils.copyWithoutRef(INIT_MODEL_ORDERS)), "Ordini");
-
         this.oModelFilters = this.setModel(new JSONModel(generalUtils.copyWithoutRef(INIT_MODEL_FILTERS)), "Filters");
       },
 
@@ -87,6 +86,10 @@ sap.ui.define(
         } finally {
           this.setBusy(false);
         }
+      },
+
+      onAdd: function () {
+        this.getRouter().navTo("NuovoOrdine");
       },
 
       async _loadOrders() {

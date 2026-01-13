@@ -42,6 +42,15 @@
               <l:GridData span="XL2 L4 M12 S12"/>
             </layoutData>
           </VBox>
+          <HBox>
+            <Button text="{i18n>btnAdd}"
+              class="sapUiSmallMarginTop"
+              press="onAdd"/>
+            <layoutData>
+              <l:GridData span="XL1 L4 M12 S12"
+                indent="XL6"/>
+            </layoutData>
+          </HBox>
         </l:Grid>
         <t:Table rows="{Ordini>/Data}"
           selectionMode="None"
@@ -53,7 +62,7 @@
           <t:columns>
             <t:Column sortProperty="Id"
               width="8rem">
-              <Label text="{i18n>labelNOrder}" />
+              <Label text="{i18n>labelNumOrdine}" />
               <t:template>
                 <Text text="{Ordini>NumOrdine}"
                   wrapping="true"/>
@@ -61,14 +70,14 @@
             </t:Column>
             <t:Column sortProperty="Nome"
               width="36rem">
-              <Label text="{i18n>labelCustomer}" />
+              <Label text="{i18n>labelCliente}" />
               <t:template>
                 <Text text="{Ordini>Cliente}"
                   wrapping="true"/>
               </t:template>
             </t:Column>
             <t:Column sortProperty="DataOrdine">
-              <Label text="{i18n>labelDateOrder}" />
+              <Label text="{i18n>labelDataOrdine}" />
               <t:template>
                 <Text text="{
                     path: 'Ordini>DataOrdine',
@@ -78,7 +87,7 @@
               </t:template>
             </t:Column>
             <t:Column sortProperty="Importo">
-              <Label text="{i18n>labelCost}" />
+              <Label text="{i18n>labelImportoTot}" />
               <t:template>
                 <ObjectNumber number="{path: 'Ordini>ImportoTot', type: 'sap.ui.model.type.Float'}"
                   unit="€"
@@ -87,7 +96,7 @@
               </t:template>
             </t:Column>
             <t:Column sortProperty="Stato">
-              <Label text="{i18n>labelState}" />
+              <Label text="{i18n>labelStato}" />
               <t:template>
                 <Text text="{Ordini>StatoTxt}"
                   wrapping="true"/>

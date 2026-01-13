@@ -114,6 +114,13 @@ sap.ui.define(
         }
       },
 
+      onNumericSearch: function (oEvent) {
+        const oSource = oEvent.getSource();
+        let sValue = oEvent.getParameter("newValue");
+        sValue = sValue.replace(/\D/g, "");
+        oSource.setValue(sValue);
+      },
+
       onPaginatorChange: async function (oEvent) {
         this.setBusy(true);
 

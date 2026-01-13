@@ -1,0 +1,138 @@
+<mvc:View controllerName="listaordini.controller.ordini.Ordine"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:l="sap.ui.layout"
+  xmlns:my="listaordini.controls"
+  xmlns:rowmodes="sap.ui.table.rowmodes"
+  xmlns:t="sap.ui.table"
+  xmlns:f="sap.f">
+  <f:DynamicPage showFooter="true">
+    <f:title>
+      <f:DynamicPageTitle>
+        <f:heading>
+          <Title text="{Mode>/title}"/>
+        </f:heading>
+      </f:DynamicPageTitle>
+    </f:title>
+    <f:content>
+      <Panel >
+        <l:Grid>
+          <VBox >
+            <Label text="{i18n>labelNumOrdine}"
+              design="Bold"
+              required="true" />
+            <Input value="{
+                path: '',
+                type: 'sap.ui.model.type.Integer',
+                constraints: { min: 0 }
+              }"
+              editable="{= !${Mode>/isEdit} }"
+              type="Number"
+              width="24rem"
+              maxLength="3"/>
+            <layoutData>
+              <l:GridData span="XL3 L5 M12 S12"/>
+            </layoutData>
+          </VBox>
+          <VBox >
+            <Label text="{i18n>labelCliente}"
+              design="Bold"
+              required="true"/>
+            <Input value="{Articolo>/NomeArticolo}"
+              maxLength="50"
+              editable="{= !${Mode>/isEdit} }"
+              width="24rem"/>
+            <layoutData>
+              <l:GridData span="XL3 L5 M12 S12"
+                indent="XL2"/>
+            </layoutData>
+          </VBox>
+        </l:Grid>
+        <OverflowToolbar >
+          <Title text="{i18n>titleArticoliOrdine}"
+            level="H4"/>
+          <ToolbarSpacer />
+          <Button icon="sap-icon://add"
+            type="Transparent"
+            visible="{= !${Mode>/isEdit} }"
+            tooltip="{i18n>tooltipAdd}"
+            press="onAddItem"/>
+          <Button icon="sap-icon://less"
+            type="Transparent"
+            visible="{= !${Mode>/isEdit} }"
+            tooltip="{i18n>tooltipRemove}"
+            press="onRemoveItem"/>
+        </OverflowToolbar>
+        <t:Table rows="{Ordini>/Data}"
+          id="tblOrder"
+          sort="onSort">
+          <t:rowMode>
+            <rowmodes:Fixed rowCount="15"/>
+          </t:rowMode>
+          <t:columns>
+            <t:Column sortProperty="Codice"
+              width="8rem">
+              <Label text="{i18n>labelCodArticolo}" />
+              <t:template>
+                <Text text="{Ordini>NumOrdine}"
+                  wrapping="true"/>
+              </t:template>
+            </t:Column>
+            <t:Column sortProperty="Nome"
+              width="36rem">
+              <Label text="{i18n>labelNomeArticolo}" />
+              <t:template>
+                <Text text="{Ordini>Cliente}"
+                  wrapping="true"/>
+              </t:template>
+            </t:Column>
+            <t:Column sortProperty="Quantita">
+              <Label text="{i18n>labelQuantita}" />
+              <t:template>
+                <Text text="{
+                    path: 'Ordini>DataOrdine',
+                    formatter: '.formatter.formatDateTime'
+                  }"
+                  wrapping="false"/>
+              </t:template>
+            </t:Column>
+            <t:Column sortProperty="Importo">
+              <Label text="{i18n>labelCosto}" />
+              <t:template>
+                <ObjectNumber number="{path: 'Ordini>ImportoTot', type: 'sap.ui.model.type.Float'}"
+                  unit="€"
+                  state="None"
+                  hideUnitInPreview="false"/>
+              </t:template>
+            </t:Column>
+          </t:columns>
+          <!-- <t:footer>
+            <my:Paginator id="tblPaginatorOrders" top="{Ordini>/Top}" skip="{Ordini>/Skip}" records="{Ordini>/Count}" press="onPaginatorChange"/>
+          </t:footer> -->
+        </t:Table>
+        <HBox justifyContent="End"
+          class="sapUiTinyMarginTopBottom">
+          <HBox width="12rem"
+            justifyContent="SpaceBetween">
+            <Text text="{i18n>labelCostoTotale}"
+              design="Bold"/>
+            <ObjectNumber number="{path: 'CostoTotale>/costoTotale', type: 'sap.ui.model.type.Float'}"
+              unit="€"
+              state="Success"/>
+          </HBox>
+        </HBox>
+      </Panel>
+    </f:content>
+    <f:footer>
+      <OverflowToolbar>
+        <Button text="{i18n>btnBack}"
+          type="Back"
+          press="onBack"/>
+        <ToolbarSpacer />
+        <Button text="{i18n>btnSave}"
+          type="Emphasized"
+          press="onSave"/>
+      </OverflowToolbar>
+    </f:footer>
+  </f:DynamicPage>
+</mvc:View>

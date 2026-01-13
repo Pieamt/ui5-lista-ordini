@@ -15,7 +15,7 @@
       <Panel >
         <l:Grid>
           <VBox >
-            <Label text="{i18n>labelNProduct}"
+            <Label text="{i18n>labelCodArticolo}"
               design="Bold"
               required="true" />
             <Input value="{
@@ -25,14 +25,16 @@
               }"
               editable="{= !${Mode>/isEdit} }"
               type="Number"
+              width="24rem"
               maxLength="3"/>
-            <Label text="{i18n>labelProduct}"
+            <Label text="{i18n>labelNomeArticolo}"
               design="Bold"
               required="true"
               class="sapUiSmallMarginTop" />
             <Input value="{Articolo>/NomeArticolo}"
-              maxLength="50"/>
-            <Label text="{i18n>labelProductCost}"
+              maxLength="50"
+              width="24rem"/>
+            <Label text="{i18n>labelImporto}"
               design="Bold"
               required="true"
               class="sapUiSmallMarginTop" />
@@ -42,16 +44,18 @@
                 constraints: { min: 0 }
               }"
               type="Number"
+              width="24rem"
               maxLength="4"/>
-            <Label text="{i18n>labelQuantityDisp}"
+            <Label text="{i18n>labelQuantitaDisp}"
               design="Bold"
               required="true"
               class="sapUiSmallMarginTop" />
             <StepInput value="{Articolo>/QuantitaDisp}"
               min="0"
-              max="10"
+              max="20"
+              textAlign="Begin"
               step="1"
-              width="5rem" />
+              width="24rem" />
           </VBox>
         </l:Grid>
       </Panel>

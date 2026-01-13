@@ -114,6 +114,16 @@
           "name": "ModificaArticolo",
           "pattern": "articolo/{CodArticolo}",
           "target": ["Articolo"]
+        },
+        {
+          "name": "NuovoOrdine",
+          "pattern": "ordini/nuovo",
+          "target": ["Ordine"]
+        },
+        {
+          "name": "DettaglioOrdine",
+          "pattern": "ordini/{NumOrdine}",
+          "target": ["Ordine"]
         }
       ],
       "targets": {
@@ -132,6 +142,10 @@
         "Articolo": {
           "id": "Articolo",
           "name": "articoli.Articolo"
+        },
+        "Ordine": {
+          "id": "Ordine",
+          "name": "ordini.Ordine"
         }
       }
     },

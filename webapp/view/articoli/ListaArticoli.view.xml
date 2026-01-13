@@ -20,7 +20,8 @@
               design="Bold" />
             <SearchField value="{Filters>/CodArticolo}"
               search="onSearch"
-              maxLength="255"/>
+              liveChange="onNumericSearch"
+              maxLength="3"/>
             <layoutData>
               <l:GridData span="XL3 L5 M12 S12"/>
             </layoutData>
@@ -30,18 +31,11 @@
               design="Bold" />
             <SearchField value="{Filters>/NomeArticolo}"
               search="onSearch"
-              maxLength="255"/>
+              maxLength="50"/>
             <layoutData>
               <l:GridData span="XL3 L5 M12 S12"/>
             </layoutData>
           </VBox>
-          <HBox justifyContent="End"
-            class="sapUiSmallMarginTop">
-            <layoutData>
-              <l:GridData span="XL1 L2 M12 S12"
-                indent="L1"/>
-            </layoutData>
-          </HBox>
         </l:Grid>
         <Table id="tblArticoli"
           items="{
@@ -60,19 +54,19 @@
           <columns>
             <Column id="id"
               headerMenu="columnHeaderMenu">
-              <Text text="{i18n>labelNProduct}" />
+              <Text text="{i18n>labelCodArticolo}" />
             </Column>
             <Column id="lastname"
               minScreenWidth="Tablet"
               demandPopin="true">
-              <Text text="{i18n>labelProduct}" />
+              <Text text="{i18n>labelNomeArticolo}" />
             </Column>
             <Column minScreenWidth="Tablet"
               demandPopin="true">
-              <Text text="{i18n>labelProductCost}" />
+              <Text text="{i18n>labelImporto}" />
             </Column>
             <Column demandPopin="true">
-              <Text text="{i18n>labelQuantityDisp}" />
+              <Text text="{i18n>labelQuantitaDisp}" />
             </Column>
             <Column hAlign="Center"
               width="3.5rem">
