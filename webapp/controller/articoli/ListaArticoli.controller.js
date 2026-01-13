@@ -21,6 +21,11 @@ sap.ui.define(
       Filters: [],
     };
 
+    const INIT_MODEL_FILTERS = {
+      CodArticolo: "",
+      NomeArticolo: "",
+    };
+
     return BaseController.extend("listaordini.controller.articoli.ListaArticoli", {
       onInit: function () {
         this.getRouter().getRoute("ListaArticoli").attachPatternMatched(this._onObjectMatched, this);
@@ -29,6 +34,8 @@ sap.ui.define(
           new JSONModel(generalUtils.copyWithoutRef(INIT_MODEL_PRODUCTS)),
           "Articoli"
         );
+
+        this.oModelFilters = this.setModel(new JSONModel(generalUtils.copyWithoutRef(INIT_MODEL_FILTERS)), "Filters");
       },
 
       _onObjectMatched: async function () {
@@ -36,6 +43,30 @@ sap.ui.define(
 
         try {
           this.oModelProducts.setData(generalUtils.copyWithoutRef(INIT_MODEL_PRODUCTS));
+
+          await this._loadProducts();
+        } catch (error) {
+          console.error(error);
+          MessageBox.error(error?.message);
+        } finally {
+          this.setBusy(false);
+        }
+      },
+
+      onSearch: async function (oEvent) {
+        const aFilters = [];
+        const oFilterProduct = this.oModelFilters.getData();
+        console.log(oFilterProduct);
+
+        entityUtils.setFilterEQ(aFilters, "CodArticolo", oFilterProduct.CodArticolo);
+        entityUtils.setFilterEQ(aFilters, "NomeArticolo", oFilterProduct.NomeArticolo);
+
+        this.setBusy(true);
+
+        try {
+          this.oModelProducts.setProperty("/Top", TOP);
+          this.oModelProducts.setProperty("/Skip", SKIP);
+          this.oModelProducts.setProperty("/Filters", aFilters);
 
           await this._loadProducts();
         } catch (error) {

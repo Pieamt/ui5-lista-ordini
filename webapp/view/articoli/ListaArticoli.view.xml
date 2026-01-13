@@ -18,7 +18,7 @@
           <VBox >
             <Label text="{i18n>labelFilterProductCode}"
               design="Bold" />
-            <SearchField value=""
+            <SearchField value="{Filters>/CodArticolo}"
               search="onSearch"
               maxLength="255"/>
             <layoutData>
@@ -28,7 +28,7 @@
           <VBox >
             <Label text="{i18n>labelFilterProductName}"
               design="Bold" />
-            <SearchField value=""
+            <SearchField value="{Filters>/NomeArticolo}"
               search="onSearch"
               maxLength="255"/>
             <layoutData>
@@ -51,9 +51,7 @@
           <headerToolbar>
             <OverflowToolbar>
               <ToolbarSpacer/>
-              <Button tooltip="{i18n>tooltipSort}"
-                icon="sap-icon://sort"
-                press="onSort"/>
+              <!-- <Button tooltip="{i18n>tooltipSort}" icon="sap-icon://sort" press="onSort"/> -->
               <Button text="{i18n>btnNew}"
                 type="Emphasized"
                 press="onNew"/>
