@@ -53,10 +53,9 @@ sap.ui.define(
         }
       },
 
-      onSearch: async function (oEvent) {
+      onSearch: async function () {
         const aFilters = [];
         const oFilterProduct = this.oModelFilters.getData();
-        console.log(oFilterProduct);
 
         entityUtils.setFilterEQ(aFilters, "CodArticolo", oFilterProduct.CodArticolo);
         entityUtils.setFilterEQ(aFilters, "NomeArticolo", oFilterProduct.NomeArticolo);
@@ -135,7 +134,6 @@ sap.ui.define(
         const sSort = this.oModelProducts.getProperty("/Sort");
 
         const oResult = await this.getEntitySet("/ZES_articoliSet", aFilters, {}, iTop, iSkip, sSort);
-        console.log(oResult);
         this.oModelProducts.setProperty("/Data", oResult.data);
         this.oModelProducts.setProperty("/Count", oResult.count);
 

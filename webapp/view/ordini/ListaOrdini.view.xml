@@ -21,7 +21,7 @@
           <VBox >
             <Label text="{i18n>labelFilterCustomer}"
               design="Bold" />
-            <SearchField value=""
+            <SearchField value="{Filters>/Cliente}"
               search="onSearch"
               maxLength="255"/>
             <layoutData>
@@ -32,7 +32,9 @@
             <Label text="{i18n>labelFilterState}"
               design="Bold" />
             <ComboBox placeholder="{i18n>placeholderChooseState}"
-              items="{States>/states}">
+              items="{States>/states}"
+              selectedKey="{Filters>/Stato}"
+              selectionChange=".onSearch">
               <core:Item key="{States>key}"
                 text="{States>text}" />
             </ComboBox>
@@ -40,19 +42,8 @@
               <l:GridData span="XL2 L4 M12 S12"/>
             </layoutData>
           </VBox>
-          <HBox justifyContent="End"
-            class="sapUiSmallMarginTop">
-            <Button text="{i18n>btnSearch}"
-              type="Emphasized"
-              class="sapUiSmallMarginEnd"
-              press="onNew"/>
-            <layoutData>
-              <l:GridData span="XL1 L2 M12 S12"
-                indent="L1"/>
-            </layoutData>
-          </HBox>
         </l:Grid>
-        <t:Table rows="{Orders>/order}"
+        <t:Table rows="{Ordini>/Data}"
           selectionMode="None"
           id="tblOrder"
           sort="onSort">
@@ -64,15 +55,15 @@
               width="8rem">
               <Label text="{i18n>labelNOrder}" />
               <t:template>
-                <Text text="{Orders>Id}"
+                <Text text="{Ordini>NumOrdine}"
                   wrapping="true"/>
               </t:template>
             </t:Column>
             <t:Column sortProperty="Nome"
-              width="12rem">
+              width="36rem">
               <Label text="{i18n>labelCustomer}" />
               <t:template>
-                <Text text="{Orders>Nome}"
+                <Text text="{Ordini>Cliente}"
                   wrapping="true"/>
               </t:template>
             </t:Column>
@@ -80,7 +71,7 @@
               <Label text="{i18n>labelDateOrder}" />
               <t:template>
                 <Text text="{
-                    path: 'Orders>DataOrdine',
+                    path: 'Ordini>DataOrdine',
                     formatter: '.formatter.formatDateTime'
                   }"
                   wrapping="false"/>
@@ -89,8 +80,8 @@
             <t:Column sortProperty="Importo">
               <Label text="{i18n>labelCost}" />
               <t:template>
-                <ObjectNumber number="{path: 'Orders>Importo', type: 'sap.ui.model.type.Float'}"
-                  unit="{Orders>Valuta}"
+                <ObjectNumber number="{path: 'Ordini>ImportoTot', type: 'sap.ui.model.type.Float'}"
+                  unit="€"
                   state="None"
                   hideUnitInPreview="false"/>
               </t:template>
@@ -98,7 +89,7 @@
             <t:Column sortProperty="Stato">
               <Label text="{i18n>labelState}" />
               <t:template>
-                <Text text="{Orders>Stato}"
+                <Text text="{Ordini>StatoTxt}"
                   wrapping="true"/>
               </t:template>
             </t:Column>
@@ -113,9 +104,9 @@
           </t:columns>
           <t:footer>
             <my:Paginator id="tblPaginatorOrders"
-              top=""
-              skip=""
-              records=""
+              top="{Ordini>/Top}"
+              skip="{Ordini>/Skip}"
+              records="{Ordini>/Count}"
               press="onPaginatorChange"/>
           </t:footer>
         </t:Table>
