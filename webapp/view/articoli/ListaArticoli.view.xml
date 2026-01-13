@@ -42,9 +42,9 @@
             </layoutData>
           </HBox>
         </l:Grid>
-        <Table id="tblProducts"
+        <Table id="tblArticoli"
           items="{
-                  path: 'Products>/',
+                  path: 'Articoli>/Data',
                   length: '10'
                 }">
           <headerToolbar>
@@ -77,22 +77,28 @@
             </Column>
             <Column hAlign="Center"
               width="3.5rem">
-              <Text text="" />
+            </Column>
+            <Column hAlign="Center"
+              width="3.5rem">
             </Column>
           </columns>
           <items>
             <ColumnListItem vAlign="Middle">
               <cells>
-                <Text text="{Orders>Id}"
+                <Text text="{Articoli>CodArticolo}"
                   wrapping="true" />
-                <Text text="{Orders>Nome}"
+                <Text text="{Articoli>NomeArticolo}"
                   wrapping="true" />
-                <ObjectNumber number="{path: 'Orders>Importo', type: 'sap.ui.model.type.Float'}"
-                  unit="{Orders>Valuta}"
+                <ObjectNumber number="{path: 'Articoli>Importo', type: 'sap.ui.model.type.Float'}"
+                  unit="€"
                   state="None"
                   hideUnitInPreview="false"/>
-                <Text text="{Orders>Stato}"
+                <Text text="{Articoli>QuantitaDisp}"
                   wrapping="true" />
+                <Button icon="sap-icon://edit"
+                  type="Transparent"
+                  tooltip="{i18n>tooltipEdit}"
+                  press="onDetail"/>
                 <Button icon="sap-icon://delete"
                   type="Transparent"
                   tooltip="{i18n>tooltipDelete}"

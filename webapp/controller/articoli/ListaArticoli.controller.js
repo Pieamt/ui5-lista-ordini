@@ -57,7 +57,7 @@ sap.ui.define(
         const sSort = this.oModelProducts.getProperty("/Sort");
 
         const oResult = await this.getEntitySet("/ZES_articoliSet", aFilters, {}, iTop, iSkip, sSort);
-
+        console.log(oResult);
         this.oModelProducts.setProperty("/Data", oResult.data);
         this.oModelProducts.setProperty("/Count", oResult.count);
 
