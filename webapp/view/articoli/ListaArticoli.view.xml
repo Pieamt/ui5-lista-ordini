@@ -1,5 +1,6 @@
 <mvc:View controllerName="listaordini.controller.articoli.ListaArticoli"
   xmlns:mvc="sap.ui.core.mvc"
+  xmlns:my="listaordini.controls"
   xmlns="sap.m"
   xmlns:l="sap.ui.layout"
   xmlns:f="sap.f">
@@ -45,7 +46,7 @@
         <Table id="tblArticoli"
           items="{
                   path: 'Articoli>/Data',
-                  length: '10'
+                  length: 10
                 }">
           <headerToolbar>
             <OverflowToolbar>
@@ -55,7 +56,7 @@
                 press="onSort"/>
               <Button text="{i18n>btnNew}"
                 type="Emphasized"
-                press="onNewProduct"/>
+                press="onNew"/>
             </OverflowToolbar>
           </headerToolbar>
           <columns>
@@ -98,15 +99,23 @@
                 <Button icon="sap-icon://edit"
                   type="Transparent"
                   tooltip="{i18n>tooltipEdit}"
-                  press="onDetail"/>
+                  press="onEdit"/>
                 <Button icon="sap-icon://delete"
                   type="Transparent"
                   tooltip="{i18n>tooltipDelete}"
-                  press="onDetail"/>
+                  press="onDelete"/>
               </cells>
             </ColumnListItem>
           </items>
         </Table>
+        <OverflowToolbar class="sapUiTinyMarginTop">
+          <ToolbarSpacer/>
+          <my:Paginator id="tblPaginatorArticoli"
+            top="{Articoli>/Top}"
+            skip="{Articoli>/Skip}"
+            records="{Articoli>/Count}"
+            press="onPaginatorChange"/>
+        </OverflowToolbar>
       </Panel>
     </f:content>
   </f:DynamicPage>

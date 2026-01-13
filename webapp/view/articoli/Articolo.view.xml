@@ -7,7 +7,7 @@
     <f:title>
       <f:DynamicPageTitle>
         <f:heading>
-          <Title text="{i18n>newProductTitle}"/>
+          <Title text="{Mode>/title}"/>
         </f:heading>
       </f:DynamicPageTitle>
     </f:title>
@@ -23,6 +23,7 @@
                 type: 'sap.ui.model.type.Integer',
                 constraints: { min: 0 }
               }"
+              editable="{= !${Mode>/isEdit} }"
               type="Number"
               maxLength="3"/>
             <Label text="{i18n>labelProduct}"

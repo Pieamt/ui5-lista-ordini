@@ -46,8 +46,55 @@ sap.ui.define(
         }
       },
 
-      onNewProduct: function () {
-        this.getRouter().navTo("Articolo");
+      onNew: function () {
+        this.getRouter().navTo("NuovoArticolo");
+      },
+
+      onEdit: function (oEvent) {
+        const sCodArticolo = oEvent.getSource().getParent().getBindingContext("Articoli").getObject().CodArticolo;
+
+        this.getRouter().navTo("ModificaArticolo", {
+          CodArticolo: sCodArticolo,
+        });
+      },
+
+      onDelete: async function (oEvent) {
+        const sCodArticolo = oEvent.getSource().getParent().getBindingContext("Articoli").getObject().CodArticolo;
+        this.setBusy(true);
+
+        try {
+          await this.deleteEntity("/ZES_articoliSet", { CodArticolo: sCodArticolo }).then(async () => {
+            this.setBusy(true);
+
+            try {
+              this._loadProducts();
+              MessageBox.success(this.getText("msgSuccessDeleteProduct"));
+            } catch (error) {
+              console.error(error);
+              MessageBox.error(error.message);
+            } finally {
+              this.setBusy(false);
+            }
+          });
+        } catch (error) {
+          console.error(error);
+          MessageBox.error(error.message);
+        } finally {
+          this.setBusy(false);
+        }
+      },
+
+      onPaginatorChange: async function (oEvent) {
+        this.setBusy(true);
+
+        try {
+          await this._loadProducts();
+        } catch (error) {
+          console.error(error);
+          MessageBox.error(error.message);
+        } finally {
+          this.setBusy(false);
+        }
       },
 
       async _loadProducts() {

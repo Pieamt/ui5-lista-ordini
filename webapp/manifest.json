@@ -106,8 +106,13 @@
           "target": ["ListaArticoli"]
         },
         {
-          "name": "Articolo",
-          "pattern": "articolo",
+          "name": "NuovoArticolo",
+          "pattern": "articolo/nuovo",
+          "target": ["Articolo"]
+        },
+        {
+          "name": "ModificaArticolo",
+          "pattern": "articolo/{CodArticolo}",
           "target": ["Articolo"]
         }
       ],
