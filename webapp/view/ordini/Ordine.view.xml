@@ -1,4 +1,5 @@
-<mvc:View controllerName="listaordini.controller.ordini.Ordine"
+<mvc:View xmlns:core="sap.ui.core"
+  controllerName="listaordini.controller.ordini.Ordine"
   xmlns:mvc="sap.ui.core.mvc"
   xmlns="sap.m"
   xmlns:l="sap.ui.layout"
@@ -21,29 +22,50 @@
             <Label text="{i18n>labelNumOrdine}"
               design="Bold"
               required="true" />
-            <Input value="{
-                path: '',
+            <HBox >
+              <Input value="{
+                path: 'Ordine>/ZET_lista_ordini/Cliente',
                 type: 'sap.ui.model.type.Integer',
                 constraints: { min: 0 }
               }"
-              editable="{= !${Mode>/isEdit} }"
-              type="Number"
-              width="24rem"
-              maxLength="3"/>
+                editable="false"
+                type="Number"
+                width="24rem"
+                maxLength="3"/>
+              <core:Icon src="sap-icon://message-information"
+                class="sapUiTinyMarginTop sapUiTinyMarginBegin"
+                visible="{= !${Mode>/isEdit} }"
+                tooltip="{i18n>tooltipNumOrdine}" />
+            </HBox>
             <layoutData>
-              <l:GridData span="XL3 L5 M12 S12"/>
+              <l:GridData span="XL2 L5 M12 S12"/>
             </layoutData>
           </VBox>
           <VBox >
             <Label text="{i18n>labelCliente}"
               design="Bold"
               required="true"/>
-            <Input value="{Articolo>/NomeArticolo}"
+            <Input value="{Ordine>/ZET_lista_ordini/Cliente}"
               maxLength="50"
               editable="{= !${Mode>/isEdit} }"
               width="24rem"/>
             <layoutData>
-              <l:GridData span="XL3 L5 M12 S12"
+              <l:GridData span="XL2 L5 M12 S12"
+                indent="XL2"/>
+            </layoutData>
+          </VBox>
+          <VBox >
+            <Label text="{i18n>labelDataOrdine}"
+              design="Bold"
+              required="true"/>
+            <DatePicker editable="{= !${Mode>/isEdit} }"
+              value="{
+                path: 'Ordine>/ZET_lista_ordini/DataOrdine'
+              }"
+              displayFormat="dd MMM yyyy"
+              valueFormat="yyyy-MM-dd'T'HH:mm:ss"/>
+            <layoutData>
+              <l:GridData span="XL2 L5 M12 S12"
                 indent="XL2"/>
             </layoutData>
           </VBox>
@@ -63,7 +85,7 @@
             tooltip="{i18n>tooltipRemove}"
             press="onRemoveItem"/>
         </OverflowToolbar>
-        <t:Table rows="{Ordini>/Data}"
+        <t:Table rows="{Ordine>/ZET_dettagli_ordiniSet}"
           id="tblOrder"
           sort="onSort">
           <t:rowMode>
@@ -74,7 +96,7 @@
               width="8rem">
               <Label text="{i18n>labelCodArticolo}" />
               <t:template>
-                <Text text="{Ordini>NumOrdine}"
+                <Text text="{Ordine>CodArticolo}"
                   wrapping="true"/>
               </t:template>
             </t:Column>
@@ -82,24 +104,21 @@
               width="36rem">
               <Label text="{i18n>labelNomeArticolo}" />
               <t:template>
-                <Text text="{Ordini>Cliente}"
+                <Text text="{Ordine>NomeArticolo}"
                   wrapping="true"/>
               </t:template>
             </t:Column>
             <t:Column sortProperty="Quantita">
               <Label text="{i18n>labelQuantita}" />
               <t:template>
-                <Text text="{
-                    path: 'Ordini>DataOrdine',
-                    formatter: '.formatter.formatDateTime'
-                  }"
+                <Text text="{Ordine>QuantitaOrdine}"
                   wrapping="false"/>
               </t:template>
             </t:Column>
             <t:Column sortProperty="Importo">
               <Label text="{i18n>labelCosto}" />
               <t:template>
-                <ObjectNumber number="{path: 'Ordini>ImportoTot', type: 'sap.ui.model.type.Float'}"
+                <ObjectNumber number="{path: 'Ordine>Importo', type: 'sap.ui.model.type.Float'}"
                   unit="€"
                   state="None"
                   hideUnitInPreview="false"/>
