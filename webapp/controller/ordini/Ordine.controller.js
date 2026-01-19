@@ -6,8 +6,9 @@ sap.ui.define(
     "listaordini/util/entityUtils",
     "sap/m/MessageToast",
     "sap/m/MessageBox",
+    "listaordini/model/formatter",
   ],
-  function (BaseController, JSONModel, generalUtils, entityUtils, MessageToast, MessageBox) {
+  function (BaseController, JSONModel, generalUtils, entityUtils, MessageToast, MessageBox, formatter) {
     "use strict";
 
     const INIT_MODEL_DEEPORDINI = {
@@ -16,15 +17,25 @@ sap.ui.define(
       ZET_lista_ordini: {
         NumOrdine: 0,
         Cliente: "",
-        DataOrdine: "",
+        DataOrdine: "0000-00-00'T'00:00:00",
         ImportoTot: 0,
-        Stato: "",
+        Stato: 0,
         StatoTxt: "",
       },
-      ZET_dettagli_ordiniSet: [],
+      ZET_dettagli_ordiniSet: { results: [] },
     };
 
+    const oStateModel = new JSONModel({
+      states: [
+        { key: "01", text: "Creato" },
+        { key: "02", text: "In elaborazione" },
+        { key: "03", text: "In transito" },
+        { key: "04", text: "Chiuso" },
+      ],
+    });
+
     return BaseController.extend("listaordini.controller.ordini.Ordine", {
+      formatter: formatter,
       onInit: function () {
         this.setModel(
           new JSONModel({
@@ -34,45 +45,95 @@ sap.ui.define(
           "Mode"
         );
         this.oModelTotalCost = this.setModel(new JSONModel({ costoTotale: 0 }), "CostoTotale");
-        this.oModelOrder = this.setModel(new JSONModel(INIT_MODEL_DEEPORDINI), "Ordine");
+        // this.oModelOrder = this.setModel(new JSONModel(INIT_MODEL_DEEPORDINI), "Ordine");
         this.getRouter().getRoute("NuovoOrdine").attachPatternMatched(this._onNew, this);
         this.getRouter().getRoute("DettaglioOrdine").attachPatternMatched(this._onEdit, this);
       },
 
       _onNew: function () {
-        console.log("qui");
+        this.oModelOrder = this.setModel(new JSONModel(generalUtils.copyWithoutRef(INIT_MODEL_DEEPORDINI)), "Ordine");
         const mode = this.getModel("Mode");
         mode.setProperty("/title", "Nuovo Ordine");
         mode.setProperty("/isEdit", false);
-        this.oModelOrder = this.setModel(new JSONModel(generalUtils.copyWithoutRef(INIT_MODEL_DEEPORDINI)), "Ordine");
       },
 
-      _onEdit: function () {},
+      _onEdit: async function (oEvent) {
+        this.oModelOrder = this.setModel(new JSONModel(INIT_MODEL_DEEPORDINI), "Ordine");
+        this.setModel(oStateModel, "States");
+        const mode = this.getModel("Mode");
+        mode.setProperty("/title", "Dettaglio Ordine");
+        mode.setProperty("/isEdit", true);
 
-      onSave: async function () {
-        const sTotalCost = this.oModelTotalCost.getProperty("/costoTotale");
-        this.oModelOrder.setProperty("/Operation", "C");
-        this.oModelOrder.setProperty("/ZET_lista_ordini/ImportoTot", sTotalCost);
-        this.oModelOrder.setProperty("/ZET_lista_ordini/Stato", 1);
+        const sNumOrdine = oEvent.getParameter("arguments").NumOrdine;
         const oPayload = this.oModelOrder.getData();
-        console.log(oPayload);
+
+        oPayload.Operation = "R";
+        oPayload.NumOrdine = Number(sNumOrdine);
+        oPayload.ZET_lista_ordini.NumOrdine = Number(sNumOrdine);
+        oPayload.ZET_lista_ordini.DataOrdine = Number(oPayload.ZET_lista_ordini.DataOrdine);
+        console.log("opay", oPayload);
 
         this.setBusy(true);
 
         try {
-          const oResult = await this.createEntity("/ZES_DeepOrdiniSet", oPayload).then((data) => {
-            MessageBox.success(this.getText("msgSuccessCreateOrder"), {
-              actions: [MessageBox.Action.CLOSE],
-              onClose: () => {
-                this.navTo("ListaOrdini");
-              },
-            });
-          });
+          const oResult = await this.createEntity("/ZES_DeepOrdiniSet", oPayload);
+          this.oModelOrder.setProperty("/", oResult.data);
+          console.log(this.oModelOrder.getData());
         } catch (error) {
           console.error(error);
           MessageBox.error(error.message);
         } finally {
           this.setBusy(false);
+        }
+      },
+
+      onSave: async function () {
+        const sMode = this.getModel("Mode").getData().isEdit;
+
+        if (sMode === false) {
+          const sTotalCost = this.oModelTotalCost.getProperty("/costoTotale");
+          this.oModelOrder.setProperty("/Operation", "C");
+          this.oModelOrder.setProperty("/ZET_lista_ordini/ImportoTot", sTotalCost);
+          this.oModelOrder.setProperty("/ZET_lista_ordini/Stato", 1);
+          const oPayload = this.oModelOrder.getData();
+          this.setBusy(true);
+          try {
+            const oResult = await this.createEntity("/ZES_DeepOrdiniSet", oPayload).then((data) => {
+              MessageBox.success(this.getText("msgSuccessCreateOrder"), {
+                actions: [MessageBox.Action.CLOSE],
+                onClose: () => {
+                  this.navTo("ListaOrdini");
+                },
+              });
+            });
+          } catch (error) {
+            console.error(error);
+            MessageBox.error(error.message);
+          } finally {
+            this.setBusy(false);
+          }
+        } else {
+          const oPayload = this.oModelOrder.getData();
+          oPayload.Operation = "U";
+          oPayload.ZET_lista_ordini.DataOrdine = NaN;
+          oPayload.ZET_lista_ordini.Stato = Number(oPayload.ZET_lista_ordini.Stato);
+          console.log(oPayload);
+          this.setBusy(true);
+          try {
+            const oResult = await this.createEntity("/ZES_DeepOrdiniSet", oPayload).then((data) => {
+              MessageBox.success(this.getText("msgSuccessUpdateOrder"), {
+                actions: [MessageBox.Action.CLOSE],
+                onClose: () => {
+                  this.navTo("ListaOrdini");
+                },
+              });
+            });
+          } catch (error) {
+            console.error(error);
+            MessageBox.error(error.message);
+          } finally {
+            this.setBusy(false);
+          }
         }
       },
 
@@ -110,7 +171,7 @@ sap.ui.define(
             }
 
             const oModel = this.getModel("Ordine");
-            const aItems = oModel.getProperty("/ZET_dettagli_ordiniSet");
+            const aItems = oModel.getProperty("/ZET_dettagli_ordiniSet/results");
 
             aSelectedIndices
               .sort((a, b) => b - a)
@@ -149,7 +210,8 @@ sap.ui.define(
           return;
         }
         const aSelectableData = this.getModel("Articoli").getProperty("/Data");
-        const aOrderItems = this.getModel("Ordine").getProperty("/ZET_dettagli_ordiniSet");
+        const aOrderItems = this.getModel("Ordine").getProperty("/ZET_dettagli_ordiniSet/results");
+        console.log(aOrderItems);
 
         aSelectedIndices.forEach((iIndex) => {
           const oItem = aSelectableData[iIndex];
@@ -173,7 +235,7 @@ sap.ui.define(
       },
 
       _recalculateTotale: function () {
-        const aData = this.getModel("Ordine").getProperty("/ZET_dettagli_ordiniSet") || [];
+        const aData = this.getModel("Ordine").getProperty("/ZET_dettagli_ordiniSet/results") || [];
         const fTot = aData.reduce((sum, o) => {
           return sum + (Number(o.Importo) || 0);
         }, 0);

@@ -24,13 +24,13 @@
               required="true" />
             <HBox >
               <Input value="{
-                path: 'Ordine>/ZET_lista_ordini/Cliente',
+                path: 'Ordine>/NumOrdine',
                 type: 'sap.ui.model.type.Integer',
                 constraints: { min: 0 }
               }"
                 editable="false"
                 type="Number"
-                width="24rem"
+                width="12rem"
                 maxLength="3"/>
               <core:Icon src="sap-icon://message-information"
                 class="sapUiTinyMarginTop sapUiTinyMarginBegin"
@@ -38,7 +38,7 @@
                 tooltip="{i18n>tooltipNumOrdine}" />
             </HBox>
             <layoutData>
-              <l:GridData span="XL2 L5 M12 S12"/>
+              <l:GridData span="XL1 L5 M12 S12"/>
             </layoutData>
           </VBox>
           <VBox >
@@ -60,13 +60,29 @@
               required="true"/>
             <DatePicker editable="{= !${Mode>/isEdit} }"
               value="{
-                path: 'Ordine>/ZET_lista_ordini/DataOrdine'
+                path: 'Ordine>/ZET_lista_ordini/DataOrdine',
+                formatter: '.formatter.formatDateTime'
               }"
-              displayFormat="dd MMM yyyy"
-              valueFormat="yyyy-MM-dd'T'HH:mm:ss"/>
+              displayFormat="dd MMM yyyy"/>
             <layoutData>
               <l:GridData span="XL2 L5 M12 S12"
                 indent="XL2"/>
+            </layoutData>
+          </VBox>
+          <VBox visible="{= ${Mode>/isEdit} }">
+            <Label text="{i18n>labelStato}"
+              design="Bold" />
+            <ComboBox placeholder="{i18n>placeholderChooseState}"
+              items="{States>/states}"
+              value="{Ordine>/ZET_lista_ordini/StatoTxt}"
+              selectedKey="{Ordine>/ZET_lista_ordini/Stato}"
+              selectionChange="">
+              <core:Item key="{States>key}"
+                text="{States>text}" />
+            </ComboBox>
+            <layoutData>
+              <l:GridData span="XL2 L4 M12 S12"
+                indent="XL1"/>
             </layoutData>
           </VBox>
         </l:Grid>
@@ -85,7 +101,7 @@
             tooltip="{i18n>tooltipRemove}"
             press="onRemoveItem"/>
         </OverflowToolbar>
-        <t:Table rows="{Ordine>/ZET_dettagli_ordiniSet}"
+        <t:Table rows="{Ordine>/ZET_dettagli_ordiniSet/results}"
           id="tblOrder"
           sort="onSort">
           <t:rowMode>

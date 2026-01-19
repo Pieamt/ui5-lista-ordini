@@ -27,6 +27,16 @@ sap.ui.define(
       Stato: "",
     };
 
+    const oStateModel = new JSONModel({
+      states: [
+        { key: "", text: "Seleziona Stato" },
+        { key: "01", text: "Creato" },
+        { key: "02", text: "In elaborazione" },
+        { key: "03", text: "In transito" },
+        { key: "04", text: "Chiuso" },
+      ],
+    });
+
     return BaseController.extend("listaordini.controller.ordini.ListaOrdini", {
       formatter: formatter,
 
@@ -38,17 +48,6 @@ sap.ui.define(
       },
 
       _onObjectMatched: async function () {
-        // Modello mock per la ComboBox
-        const oStateModel = new JSONModel({
-          states: [
-            { key: "", text: "Seleziona Stato" },
-            { key: "01", text: "Creato" },
-            { key: "02", text: "In elaborazione" },
-            { key: "03", text: "In transito" },
-            { key: "04", text: "Chiuso" },
-          ],
-        });
-        // Setto il modello alla view con nome 'States'
         this.setModel(oStateModel, "States");
 
         this.setBusy(true);
@@ -89,7 +88,15 @@ sap.ui.define(
       },
 
       onAdd: function () {
-        this.getRouter().navTo("NuovoOrdine");
+        this.navTo("NuovoOrdine");
+      },
+
+      onDetail: function (oEvent) {
+        var sId = oEvent.getSource().getParent().getBindingContext("Ordini").getProperty("NumOrdine");
+
+        this.navTo("DettaglioOrdine", {
+          NumOrdine: sId,
+        });
       },
 
       async _loadOrders() {
